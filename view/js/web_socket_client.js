@@ -1,4 +1,70 @@
 $(function() {
+    var chart_options = {
+        chart: {
+            renderTo: 'chart',
+            defaultSeriesType: 'spline',
+            marginRight: 10,
+            events: {
+                /*
+                load: function() {
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    setInterval(function() {
+                        var x = (new Date()).getTime(), // current time
+                            y = Math.random();
+                        series.addPoint([x, y], true, true);
+                    }, 1000);
+                }
+                */
+                /*
+                load: function() {
+                    // set up the updating of the chart each second
+                    setInterval(function() {
+                        var series_data = chart_options.series[0].data;
+                        //alert(series_data.length);
+                        for(var i = 0; i < series_data.length; i++) {
+                            //log("t: " + series_data[i].x + " qty: " + series_data[i].y);
+                            chart.series[0].addPoint([series_data[i].x * 1000, series_data[i].y], true, true);
+                        }
+                    }, 1000);
+                }*/
+            }
+        },
+        title: {
+            text: 'Tweets / t'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        yAxis: {
+            title: {
+                text: 'Tweets'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            formatter: function() {
+                    return '<b>'+ this.series.name +'</b><br/>'+
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br/>'+
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        series: [{
+            name: 'Tweet / t',
+            data: []
+        }]
+    };
+
+    var chart = new Highcharts.Chart(chart_options);
+
     var socket = new WebSocket('ws://0.0.0.0:8080/');
 
     socket.onopen = function() {
@@ -16,7 +82,17 @@ $(function() {
     socket.onmessage = function(message) {
        var payload = JSON.parse(message.data);
        writeTweet(payload.user, payload.tweet, payload.lang);
-       log("STATS: t=" + payload.stats[0].time + " qty=" + payload.stats[0].quantity)
+       //log("STATS: t=" + payload.stats[0].time + " qty=" + payload.stats[0].quantity);
+       var tweet_data = [];
+       //for(var i = 0; i < payload.stats.length && i < 100; i++) {
+       for(var i = payload.stats.length - 1; i > 0 && i > payload.stats.length - 100; i--) {
+         tweet_data.push({
+             x: new Date(payload.stats[i].time).getTime(),
+             y: payload.stats[i].quantity
+         });
+       }
+       chart.series[0].data = tweet_data;
+       chart.redraw();
     };
 
     function writeTweet(user, tweet, lang) {
@@ -39,7 +115,9 @@ $(function() {
         tweets_view.animate({scrollTop: $('div#tweet').length * 30}, 800);
     }
 
-    function buildXAxis() {
+
+
+    /*function buildXAxis() {
         var axis_values = [];
 
         for(var i = 0; i < 60; i++) {
@@ -47,7 +125,7 @@ $(function() {
         }
 
         return axis_values;
-    }
+    }*/
 });
 
 function log(msg) {
