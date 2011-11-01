@@ -16,6 +16,7 @@ $(function() {
     socket.onmessage = function(message) {
        var payload = JSON.parse(message.data);
        writeTweet(payload.user, payload.tweet, payload.lang);
+       log("STATS: t=" + payload.stats[0].time + " qty=" + payload.stats[0].quantity)
     };
 
     function writeTweet(user, tweet, lang) {

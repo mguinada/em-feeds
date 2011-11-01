@@ -7,3 +7,4 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 require 'language_detector'
 require 'twitter_feed'
 require 'web_socket_server'
+require 'stats_engine'
