@@ -33,7 +33,7 @@ EM.run do
       end
 
       ld.errback do |lang|
-        puts "LOG: Couldn't find language for: ' #{msg}"
+        puts "LOG: Couldn't find language for: [#{msg}]"
         conn.send(JSON.generate(:lang => nil, :user => user, :tweet => msg))
       end
     end

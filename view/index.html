@@ -4,13 +4,16 @@
     <title>Twitter Feed</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="text/javascript" src="js/web_socket_client.js"></script>
-    <link type="text/css" rel="stylesheet" href="http://gridsystemgenerator.com/download/gs01/uncompressed/css/1040_16_10_10.css"/>
+    <!-- http://gridsystemgenerator.com/gs01.php?GridWidth=1440&GridColumns=20&GridMarginLeft=20&GridMarginRight=20&sc=1 -->
+    <link type="text/css" rel="stylesheet" href="http://gridsystemgenerator.com/download/gs01/uncompressed/css/1440_20_20_20.css"/>
     <link type="text/css" rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <div id="content" class="grid_16">
-        <div id="tweets" class="grid_4"></div>
+    <div class="container_20">
+        <div id="tweets" class="grid_8">
+            <div id="tweet" style="display: none;"></div>
+        </div>
+        <div class="clear">&nbsp;</div>
     </div>
-    <div class="clear">&nbsp;</div>
 </body>
 </html>
