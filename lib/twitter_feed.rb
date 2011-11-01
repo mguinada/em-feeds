@@ -16,15 +16,15 @@ class TwitterStream
 
     stream.each_item do |item|
       tweet = JSON.parse(item)
-      @tweet_callbacks.reverse.each { |c| c.call(tweet['user']['screen_name'], tweet['text'], tweet) }
+      @tweet_callbacks.each { |c| c.call(tweet['user']['screen_name'], tweet['text'], tweet) }
     end
 
     stream.on_error do |message|
-      @error_callbacks.reverse.each { |c| c.call(message) }
+      @error_callbacks.each { |c| c.call(message) }
     end
 
     stream.on_max_reconnects do |timeout, retries|
-      @error_callbacks.reverse.each { |c| c.call("Failed with timeout: #{timeout} after #{retries} retries") }
+      @error_callbacks.each { |c| c.call("Failed with timeout: #{timeout} after #{retries} retries") }
     end
     self
   end

@@ -9,20 +9,7 @@ username = ARGV[0]
 password = ARGV[1]
 
 EM.run do
-  websocket_connections = []
-
-  EM::WebSocket.start(:host => '0.0.0.0', :port => 8080) do |ws|
-    ws.onopen do
-      puts "LOG: Websocket connection open"
-      websocket_connections << ws
-    end
-
-    ws.onclose do
-      puts "LOG: Websocket connection closed"
-      websocket_connections.delete(ws)
-    end
-  end
-
+  web_socket_server = WebSocketServer.new('0.0.0.0', 8080)
   twitter = TwitterStream.new(username, password, "football,soccer,futebol,futbol").listen
 
   #Console output
@@ -39,16 +26,15 @@ EM.run do
 
   #Web output
   twitter.ontweet do |user, msg|
-    websocket_connections.each do |socket|
-
+    web_socket_server.oneach_connection do |conn|
       ld = LanguageDetector.new(msg)
       ld.callback do |lang|
-        JSON.generate(:lang => lang, :user => user, :tweet => msg)
+        conn.send(JSON.generate(:lang => lang, :user => user, :tweet => msg))
       end
 
       ld.errback do |lang|
         puts "LOG: Couldn't find language for: ' #{msg}"
-        socket.send(JSON.generate(:lang => nil, :user => user, :tweet => msg))
+        conn.send(JSON.generate(:lang => nil, :user => user, :tweet => msg))
       end
     end
   end
