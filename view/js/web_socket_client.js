@@ -22,7 +22,7 @@ $(function() {
         var tweets_view = $('div#tweets');
         var tweet_view = $("<div id='tweet' style='display: none;'></div>");
         var user_html = $("<div class='grid_4'><b>@" + user + "</b></div>");
-        var tweet_html = $("<div class='grid_8'>" + tweet + "</div>");
+        var tweet_html = $("<div class='grid_9'>" + tweet + "</div>");
         var lang_html = $("<div class='grid_4'><i>[" + lang + "]</i></div>");
 
         tweet_view.append(user_html);
@@ -35,8 +35,7 @@ $(function() {
         tweets_view.append(tweet_view);
 
         tweet_view.slideDown(100);
-        //$('html, body').animate({scrollTop: tweets_view.height()}, 800);
-        tweets_view.animate({scrollTop: $('div#tweet').length * 15}, 800);
+        tweets_view.animate({scrollTop: $('div#tweet').length * 30}, 800);
     }
 
     function buildXAxis() {
