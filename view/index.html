@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Twitter Feed</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script type="text/javascript" src="js/web_socket_client.js"></script>
-    <!-- http://gridsystemgenerator.com/gs01.php?GridWidth=1440&GridColumns=20&GridMarginLeft=20&GridMarginRight=20&sc=1 -->
-    <link type="text/css" rel="stylesheet" href="http://gridsystemgenerator.com/download/gs01/uncompressed/css/1440_20_20_20.css"/>
-    <link type="text/css" rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-    <div class="container_20">
-        <div id="tweets" class="grid_8">
-            <div id="tweet" style="display: none;"></div>
+    <head>
+        <title>Twitter Feed</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/highcharts/highcharts.js"></script>
+        <script type="text/javascript" src="js/highcharts/modules/exporting.js"></script>
+        <script type="text/javascript" src="js/web_socket_client.js"></script>
+
+        <!-- http://gridsystemgenerator.com/gs01.php?GridWidth=1440&GridColumns=20&GridMarginLeft=20&GridMarginRight=20&sc=1 -->
+        <link type="text/css" rel="stylesheet" href="http://gridsystemgenerator.com/download/gs01/uncompressed/css/1440_20_20_20.css"/>
+        <link type="text/css" rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div class="container_20">
+            <div id="tweets" class="grid_8">
+                <div id="tweet" style="display: none;"></div>
+            </div>
+            <div class="clear">&nbsp;</div>
         </div>
-        <div class="clear">&nbsp;</div>
-    </div>
-</body>
+    </body>
 </html>

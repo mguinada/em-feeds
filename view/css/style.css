@@ -62,3 +62,10 @@ input[type="submit"] {
     border: 1px dashed;
     background-color: #d3d3d3;
 }
+
+#tweets {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: 700px;
+}
+
