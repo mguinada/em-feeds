@@ -1,0 +1,64 @@
+body {
+    font: 13px/1.5 'Trebuchet MS', Arial, 'Liberation Sans', FreeSans, sans-serif;
+    font-size: 16px;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+h3 {
+    font-size: 22px;
+}
+
+a {
+    color: black;
+    text-decoration: overline;
+}
+
+.active, a:hover {
+    background-color: black;
+    color: white;
+}
+
+a:visited {
+    text-decoration: line-through;
+}
+
+#menu li {
+    display: inline;
+}
+
+#title {
+    text-align: center;
+}
+
+/* forms */
+label, input, select, textarea {
+    margin-top: 1em;
+}
+
+label {
+    width: 4em;
+    float: left;
+    text-align: right;
+    font-weight: bold;
+    margin-right: 0.5em;
+    display: block;
+}
+
+input[type="submit"] {
+    font-weight: bold;
+    margin-left: 4.5em;
+}
+
+/* form errors */
+#error_explanation {
+    padding: 1em;
+    border: 1px dashed;
+    background-color: #d3d3d3;
+}

@@ -1,0 +1,14 @@
+.bundle
+.project
+.livereload
+.externalToolBuilders/
+.settings/
+.tmp_*
+.DS_Store
+.idea
+.rake_tasks~
+db/*.sqlite3
+db/*.db
+log/*.log
+tmp/**/*
+tmp/
