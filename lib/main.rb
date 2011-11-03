@@ -1,5 +1,13 @@
 require './boot'
 
+#TODO: Allow to define the time range for charted tweets at the web console
+#TODO: Pass search terms by command line
+#TODO: Reimplement scroll code
+#TODO: Solved layout flicker
+#TODO: More stats (Language bar / pie graph)
+#TODO: Better command line args processing (e.g.: ** for password)
+#TODO: Solve JS Error
+
 unless ARGV.length == 2
   STDERR.puts "Usage: #{$0} <username> <password>"
   exit 1
@@ -9,9 +17,9 @@ username = ARGV[0]
 password = ARGV[1]
 
 EM.run do
-  stats = StatsEngine.new
+  statistics_engine = StatsEngine.new
   web_socket_server = WebSocketServer.new('0.0.0.0', 8080)
-  twitter = TwitterStream.new(username, password, "football,soccer,futebol,futbol").listen
+  twitter = TwitterStream.new(username, password, "futebol,futbol,soccer,champions,benfica,manunited,realmadrid,barca").listen
 
   #Console output
   twitter.ontweet do |user, msg, tweet|
@@ -25,20 +33,12 @@ EM.run do
     end
   end
 
-
-
   #Web output
   twitter.ontweet do |user, msg, tweet|
-    stats.process_tweet(tweet)
-    web_socket_server.oneach_connection do |conn|
-      ld = LanguageDetector.new(msg)
-      ld.callback do |lang|
-        conn.send(JSON.generate(:lang => lang, :user => user, :tweet => msg, :stats => stats.tweet_stats))
-      end
-
-      ld.errback do |lang|
-        puts "LOG: Couldn't find language for: [#{msg}]"
-        conn.send(JSON.generate(:lang => nil, :user => user, :tweet => msg, :stats => stats.tweet_stats))
+    statistics_engine.process_tweet(tweet)
+    statistics_engine.callback do |stats|
+      web_socket_server.oneach_connection do |conn|
+        conn.send(JSON.generate(:user => user, :tweet => msg, :stats => stats.last_60_seconds, :lang => nil))
       end
     end
   end
