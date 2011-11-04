@@ -39,11 +39,10 @@ class StatsEngine
   def process_tweet(tweet, lang = nil)
     begin
       t = StatsEngine.twitter_time(tweet['created_at'])
-      if @tweets[t].nil?
-        @tweets[t] = { :time => t, :quantity => 1 }
-      else
-        @tweets[t][:quantity] += 1
-      end
+
+      @tweets[t] ||= { :time => t, :quantity => 0 }
+      @tweets[t][:quantity] += 1
+
       self.succeed(Stats.new(@tweets.values))
     rescue
       self.fail

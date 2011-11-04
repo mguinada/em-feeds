@@ -35,6 +35,7 @@ EM.run do
 
   #Web output
   twitter.ontweet do |user, msg, tweet|
+    #TODO: Watch this
     statistics_engine.process_tweet(tweet)
     statistics_engine.callback do |stats|
       web_socket_server.oneach_connection do |conn|
