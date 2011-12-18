@@ -17,9 +17,10 @@ username = ARGV[0]
 password = ARGV[1]
 
 EM.run do
-  statistics_engine = StatsEngine.new
+  term = "futebol,futbol,soccer,champions,benfica,manunited,realmadrid,barca"
+  statistics_engine = StatsEngine.new(term)
   web_socket_server = WebSocketServer.new('0.0.0.0', 8080)
-  twitter = TwitterStream.new(username, password, "futebol,futbol,soccer,champions,benfica,manunited,realmadrid,barca").listen
+  twitter = TwitterStream.new(username, password, term).listen
 
   #Console output
   twitter.ontweet do |user, msg, tweet|

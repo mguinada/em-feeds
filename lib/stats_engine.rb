@@ -32,20 +32,39 @@ class StatsEngine
     end
   end
 
-  def initialize
+  def initialize(terms = nil)
     @tweets = {}
+    @term_matches = {}
+    @terms = terms
   end
 
   def process_tweet(tweet, lang = nil)
     begin
       t = StatsEngine.twitter_time(tweet['created_at'])
 
-      @tweets[t] ||= { :time => t, :quantity => 0 }
-      @tweets[t][:quantity] += 1
+      counting_stat(t)
+      term_matched_stat(tweet) unless @terms.nil?
 
       self.succeed(Stats.new(@tweets.values))
     rescue
       self.fail
+    end
+  end
+
+  private
+  def counting_stat(t)
+    @tweets[t] ||= { :time => t, :quantity => 0 }
+    @tweets[t][:quantity] += 1
+    @tweets[t]
+  end
+
+  def term_matched_stat(tweet)
+    matches = tweet['text'].match(Regexp.new("/#{@terms.split(",").join("|")}/i"))
+    unless matches.nil?
+      matches.to_a.each do |match|
+        @term_matches[match] ||= 1
+        @term_matches[match] += 1
+      end
     end
   end
 end
