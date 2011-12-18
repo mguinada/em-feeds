@@ -1,7 +1,7 @@
 $(function() {
     var time_chart_options = {
         chart: {
-            renderTo: 'chart',
+            renderTo: 'tweet_time_chart',
             defaultSeriesType: 'spline',
             marginRight: 10
         },
@@ -26,6 +26,7 @@ $(function() {
             enabled: false
         },
         series: [{
+            id: 'tweet_time_series',
             name: 'Tweet / t',
             data: []
         }]
@@ -59,8 +60,22 @@ $(function() {
              y: payload.stats.tweets_vs_time[i].quantity
          });
        }
-       tweet_time_chart.series[0].data = tweet_vs_time;
-       tweet_time_chart.redraw();
+
+       tweet_time_chart.get("tweet_time_series").setData(tweet_vs_time, true);
+
+/*
+       var term_hits = [];
+        alert('sads');
+        log(payload.stats.term_hits.length);
+        alert('sads');
+       for(var i = 0; i < payload.stats.term_hits.length; i++) {
+           term_hits.push({
+               x: payload.stats.term_hits[i].term,
+               y: payload.stats.term_hits[i].quantity
+           });
+           log(payload.stats.term_hits[i].term + ": " + payload.stats.term_hits[i].quantity);
+       }
+       */
     };
 
     function writeTweet(user, tweet, lang) {
