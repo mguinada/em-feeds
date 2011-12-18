@@ -70,9 +70,10 @@ class StatsEngine
   end
 
   def term_hit_count(tweet)
-    matches = tweet['text'].match(Regexp.new("/#{@terms.split(",").join("|")}/i"))
+    matches = tweet['text'].scan(Regexp.new("#{@terms.split(",").join("|")}", Regexp::IGNORECASE))
     unless matches.nil?
-      matches.to_a.each do |match|
+      matches.to_a.map(&:downcase).each do |match|
+        puts match
         @term_hits[match] ||= { term: match, quantity: 0 }
         @term_hits[match][:quantity] += 1
       end

@@ -3,7 +3,8 @@ $(function() {
         chart: {
             renderTo: 'tweet_time_chart',
             defaultSeriesType: 'spline',
-            marginRight: 10
+            marginRight: 10,
+            height: 350
         },
         title: {
             text: 'Tweets / t'
@@ -32,7 +33,32 @@ $(function() {
         }]
     };
 
+    var term_hit_chart = {
+        chart: {
+            renderTo: 'tweet_term_hit_chart',
+            defaultSeriesType: 'column',
+            marginRight: 10,
+            height: 350
+        },
+        title: {
+            text: 'Term Hit Count'
+        },
+        xAxis: {
+          text: 'terms',
+          categories: []
+        },
+        legend: {
+            enabled: false
+        },
+        series: [{
+            id: 'tweet_term_hit_series',
+            name: 'Term hit count',
+            data: []
+        }]
+    };
+
     var tweet_time_chart = new Highcharts.Chart(time_chart_options);
+    var term_hit_chart = new Highcharts.Chart(term_hit_chart);
 
     var socket = new WebSocket('ws://0.0.0.0:8080/');
 
@@ -55,27 +81,22 @@ $(function() {
 
        var tweet_vs_time = [];
        for(var i = 0; i < payload.stats.tweets_vs_time.length; i++) {
-         tweet_vs_time.push({
-             x: new Date(payload.stats.tweets_vs_time[i].time).getTime(),
-             y: payload.stats.tweets_vs_time[i].quantity
-         });
+           tweet_vs_time.push({
+               x: new Date(payload.stats.tweets_vs_time[i].time).getTime(),
+               y: payload.stats.tweets_vs_time[i].quantity
+           });
+       }
+
+       var terms = [];
+       var term_hits = [];
+       for(var j = 0; j < payload.stats.term_hits.length; j++) {
+           terms.push(payload.stats.term_hits[j].term);
+           term_hits.push(payload.stats.term_hits[j].quantity);
        }
 
        tweet_time_chart.get("tweet_time_series").setData(tweet_vs_time, true);
-
-/*
-       var term_hits = [];
-        alert('sads');
-        log(payload.stats.term_hits.length);
-        alert('sads');
-       for(var i = 0; i < payload.stats.term_hits.length; i++) {
-           term_hits.push({
-               x: payload.stats.term_hits[i].term,
-               y: payload.stats.term_hits[i].quantity
-           });
-           log(payload.stats.term_hits[i].term + ": " + payload.stats.term_hits[i].quantity);
-       }
-       */
+       term_hit_chart.xAxis[0].setCategories(terms, true);
+       term_hit_chart.get("tweet_term_hit_series").setData(term_hits, true);
     };
 
     function writeTweet(user, tweet, lang) {

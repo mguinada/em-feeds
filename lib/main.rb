@@ -17,7 +17,7 @@ username = ARGV[0]
 password = ARGV[1]
 
 EM.run do
-  term = "futebol,futbol,soccer,champions,benfica,manunited,realmadrid,barca"
+  term = "futebol,futbol,soccer,champions,benfica,slb,slbenfica,manunited,realmadrid,barca"
   statistics_engine = StatsEngine.new(term)
   web_socket_server = WebSocketServer.new('0.0.0.0', 8080)
   twitter = TwitterStream.new(username, password, term).listen
@@ -40,11 +40,7 @@ EM.run do
     statistics_engine.process_tweet(tweet)
     statistics_engine.callback do |stats|
       web_socket_server.oneach_connection do |conn|
-        payload = JSON.generate(:user => user, :tweet => msg, :stats => stats.last_60_seconds, :lang => nil)
-        puts "----------"
-        puts payload.inspect
-        puts "----------"
-        conn.send(payload)
+        conn.send(JSON.generate(:user => user, :tweet => msg, :stats => stats.last_60_seconds, :lang => nil))
       end
     end
   end

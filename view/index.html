@@ -3,7 +3,7 @@
     <head>
         <title>Twitter Feed</title>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-        <script type="text/javascript" src="js/highcharts/highcharts.js"></script>
+        <script type="text/javascript" src="js/highcharts/highcharts.src.js"></script>
         <script type="text/javascript" src="js/highcharts/modules/exporting.js"></script>
         <script type="text/javascript" src="js/web_socket_client.js"></script>
 
@@ -16,7 +16,10 @@
             <div id="tweets" class="grid_10">
                 <div id="tweet" style="display: none;"></div>
             </div>
-            <div id="tweet_time_chart" class="grid_10"></div>
+            <div class="grid_10">
+                <div id="tweet_time_chart"></div>
+                <div id="tweet_term_hit_chart"></div>
+            </div>
             <div class="clear">&nbsp;</div>
         </div>
     </body>
