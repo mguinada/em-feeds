@@ -1,5 +1,5 @@
 $(function() {
-    var chart_options = {
+    var time_chart_options = {
         chart: {
             renderTo: 'chart',
             defaultSeriesType: 'spline',
@@ -31,7 +31,7 @@ $(function() {
         }]
     };
 
-    var chart = new Highcharts.Chart(chart_options);
+    var tweet_time_chart = new Highcharts.Chart(time_chart_options);
 
     var socket = new WebSocket('ws://0.0.0.0:8080/');
 
@@ -52,16 +52,15 @@ $(function() {
 
        writeTweet(payload.user, payload.tweet, payload.lang);
 
-       var tweet_data = [];
-       //for(var i = payload.stats.length - 1; i > 0 && i > payload.stats.length - 20; i--) {
-       for(var i = 0; i < payload.stats.length; i++) {
-         tweet_data.push({
-             x: new Date(payload.stats[i].time).getTime(),
-             y: payload.stats[i].quantity
+       var tweet_vs_time = [];
+       for(var i = 0; i < payload.stats.tweets_vs_time.length; i++) {
+         tweet_vs_time.push({
+             x: new Date(payload.stats.tweets_vs_time[i].time).getTime(),
+             y: payload.stats.tweets_vs_time[i].quantity
          });
        }
-       chart.series[0].data = tweet_data;
-       chart.redraw();
+       tweet_time_chart.series[0].data = tweet_vs_time;
+       tweet_time_chart.redraw();
     };
 
     function writeTweet(user, tweet, lang) {

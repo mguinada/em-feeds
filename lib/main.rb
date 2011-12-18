@@ -36,11 +36,15 @@ EM.run do
 
   #Web output
   twitter.ontweet do |user, msg, tweet|
-    #TODO: Watch this
+    #TODO: Defer this?
     statistics_engine.process_tweet(tweet)
     statistics_engine.callback do |stats|
       web_socket_server.oneach_connection do |conn|
-        conn.send(JSON.generate(:user => user, :tweet => msg, :stats => stats.last_60_seconds, :lang => nil))
+        payload = JSON.generate(:user => user, :tweet => msg, :stats => stats.last_60_seconds, :lang => nil)
+        puts "----------"
+        puts payload.inspect
+        puts "----------"
+        conn.send(payload)
       end
     end
   end
