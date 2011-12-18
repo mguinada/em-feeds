@@ -73,7 +73,6 @@ class StatsEngine
     matches = tweet['text'].scan(Regexp.new("#{@terms.split(",").join("|")}", Regexp::IGNORECASE))
     unless matches.nil?
       matches.to_a.map(&:downcase).each do |match|
-        puts match
         @term_hits[match] ||= { term: match, quantity: 0 }
         @term_hits[match][:quantity] += 1
       end
