@@ -17,7 +17,7 @@ username = ARGV[0]
 password = ARGV[1]
 
 EM.run do
-  term = "futebol,futbol,soccer,champions,benfica,slb,slbenfica,manunited,realmadrid,barca"
+  term = "ruby,clojure,scala,python,java,php"
   statistics_engine = StatsEngine.new(term)
   web_socket_server = WebSocketServer.new('0.0.0.0', 8080)
   twitter = TwitterStream.new(username, password, term).listen
