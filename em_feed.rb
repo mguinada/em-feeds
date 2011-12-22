@@ -1,4 +1,4 @@
-require './boot'
+require './lib/boot'
 
 #TODO: Allow to define the time range for charted tweets at the web console
 #TODO: Pass search terms by command line

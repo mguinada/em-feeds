@@ -1,0 +1,10 @@
+An experiment on real time services with event machine, twitter and websockets.
+
+Running
+=======
+
+NOTICE: Requires a browser that supports websockets.
+
+bundle install
+ruby em_feed.rb <twitter_username> <twitter_passwd>
+google-chrome view/index.html
