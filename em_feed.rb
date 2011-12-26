@@ -13,10 +13,10 @@ unless ARGV.length == 2
   exit 1
 end
 
-username = ARGV[0]
-password = ARGV[1]
-
 EM.run do
+  username = ARGV[0]
+  password = ARGV[1]
+
   term = "ruby,clojure,scala,python,java,php"
   statistics_engine = StatsEngine.new(term)
   web_socket_server = WebSocketServer.new('0.0.0.0', 8080)
@@ -44,4 +44,6 @@ EM.run do
       end
     end
   end
+
+  Thin::Server.start App, '0.0.0.0', 3000
 end

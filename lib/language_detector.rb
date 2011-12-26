@@ -1,5 +1,3 @@
-require './lib/boot'
-
 class LanguageDetector
   URL = 'http://www.google.com/uds/GlangDetect'
 
