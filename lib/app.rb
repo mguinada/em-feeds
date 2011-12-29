@@ -1,4 +1,6 @@
 class App < Sinatra::Base
+  enable :sessions
+
   set :views, File.dirname(__FILE__)  + "/../views"
   set :public_folder, File.dirname(__FILE__) + "/../public"
 
@@ -9,6 +11,7 @@ class App < Sinatra::Base
   post '/feed' do
     puts "---------------"
     puts params.inspect
+    puts session.inspect
     puts "---------------"
   end
 end

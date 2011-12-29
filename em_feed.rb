@@ -22,26 +22,10 @@ EM.run do
   web_socket_server = WebSocketServer.new('0.0.0.0', 8080)
   twitter = TwitterStream.new(username, password, term).listen
 
-  #Console output
-  twitter.ontweet do |user, msg, tweet|
-    ld = LanguageDetector.new(msg)
-    ld.callback do |lang|
-      #puts "[#{lang}] @#{user}: #{msg}"
-    end
-
-    ld.errback do |lang|
-      #puts "@#{user}: #{msg}"
-    end
-  end
-
   #Web output
   twitter.ontweet do |user, msg, tweet|
-    #TODO: Defer this?
-    statistics_engine.process_tweet(tweet)
-    statistics_engine.callback do |stats|
-      web_socket_server.oneach_connection do |conn|
-        conn.send(JSON.generate(:user => user, :tweet => msg, :stats => stats.last_60_seconds, :lang => nil))
-      end
+    web_socket_server.oneach_connection do |conn|
+      conn.send(JSON.generate(:user => user, :tweet => msg, :stats => statistics_engine.process_tweet(tweet).last_60_seconds, :lang => nil))
     end
   end
 

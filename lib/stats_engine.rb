@@ -33,8 +33,6 @@ end
 
 class StatsEngine
   @@twitter_time_format = "%a %b %d %H:%M:%S %Z %Y"
-  include EM::Deferrable
-
   attr_accessor :tweets_vs_time
 
   class << self
@@ -43,23 +41,16 @@ class StatsEngine
     end
   end
 
-  def initialize(terms = nil)
+  def initialize(terms)
     @tweets_vs_time = {}
     @term_hits = {}
     @terms = terms
   end
 
   def process_tweet(tweet, lang = nil)
-    begin
-      t = StatsEngine.twitter_time(tweet['created_at'])
-
-      tweet_vs_time_count(t)
-      term_hit_count(tweet) unless @terms.nil?
-
-      self.succeed(Stats.new(@tweets_vs_time.values, @term_hits.values))
-    rescue
-      self.fail
-    end
+    tweet_vs_time_count(StatsEngine.twitter_time(tweet['created_at']))
+    term_hit_count(tweet)
+    Stats.new(@tweets_vs_time.values, @term_hits.values)
   end
 
   private
