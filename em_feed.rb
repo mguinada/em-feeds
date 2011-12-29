@@ -26,11 +26,11 @@ EM.run do
   twitter.ontweet do |user, msg, tweet|
     ld = LanguageDetector.new(msg)
     ld.callback do |lang|
-      puts "[#{lang}] @#{user}: #{msg}"
+      #puts "[#{lang}] @#{user}: #{msg}"
     end
 
     ld.errback do |lang|
-      puts "@#{user}: #{msg}"
+      #puts "@#{user}: #{msg}"
     end
   end
 

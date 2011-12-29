@@ -38,22 +38,46 @@ a:visited {
 }
 
 /* forms */
-label, input, select, textarea {
-    margin-top: 1em;
+form fieldset {
+    margin-bottom: 10px;
 }
 
-label {
-    width: 4em;
-    float: left;
-    text-align: right;
+form legend {
+    padding: 0 2px;
     font-weight: bold;
-    margin-right: 0.5em;
-    display: block;
 }
 
-input[type="submit"] {
-    font-weight: bold;
-    margin-left: 4.5em;
+form label {
+   display: inline-block;
+   line-height: 1.8;
+   vertical-align: top;
+}
+
+form fieldset {
+    border: none;
+}
+
+form fieldset ol {
+    margin: 0;
+    padding: 0;
+}
+
+form fieldset li {
+    list-style: none;
+    padding: 5px;
+    margin:  0;
+}
+
+form label {
+  width: 135px;
+}
+
+form input[type="text"], input[type="password"]{
+    border-width: 1px;
+}
+
+form fieldset.buttons input[type="submit"] {
+    float: right;
 }
 
 /* form errors */
@@ -63,9 +87,14 @@ input[type="submit"] {
     background-color: #d3d3d3;
 }
 
+/* Etc */
 #tweets {
     overflow-y: hidden;
     overflow-x: hidden;
     height: 700px;
 }
 
+
+div#form {
+    margin-top: 150px;
+}

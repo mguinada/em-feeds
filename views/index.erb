@@ -13,14 +13,34 @@
     </head>
     <body>
         <div class="container_20">
-            <div id="tweets" class="grid_10">
-                <div id="tweet" style="display: none;"></div>
-            </div>
-            <div class="grid_10">
-                <div id="tweet_time_chart"></div>
-                <div id="tweet_term_hit_chart"></div>
-            </div>
-            <div class="clear">&nbsp;</div>
+          <div id="form" class="push_7 grid_6">
+            <form id="query" action="/feed" method="post">
+              <fieldset>
+                <legend></legend>
+                <ol>
+                  <li>
+                    <label for="terms">Terms</label>
+                    <input id="terms" name="terms" type="text"/>
+                  </li>
+                  <li>
+                    <label for="username">Twitter username</label>
+                    <input id="username" name="username" type="text"/>
+                  </li>
+                  <li>
+                    <label for="password">Twitter password</label>
+                    <input id="password" name="password" type="password"/>
+                  </li>
+                </ol>
+              </fieldset>
+              <fieldset class="buttons">
+                <ol>
+                  <li>
+                    <input type="submit"/>
+                  </li>
+                </ol>
+              </fieldset>
+            </form>
+          </div>
         </div>
     </body>
 </html>
