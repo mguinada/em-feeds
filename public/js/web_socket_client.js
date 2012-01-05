@@ -60,7 +60,7 @@ $(function() {
     var tweet_time_chart = new Highcharts.Chart(time_chart_options);
     var term_hit_chart = new Highcharts.Chart(term_hit_chart);
 
-    var socket = new WebSocket('ws://0.0.0.0:8080/');
+    var socket = new WebSocket('ws://0.0.0.0:3001/');
 
     socket.onopen = function() {
         log('Socket opened');
@@ -77,7 +77,7 @@ $(function() {
     socket.onmessage = function(message) {
        var payload = JSON.parse(message.data);
 
-       writeTweet(payload.user, payload.tweet, payload.lang);
+       writeTweet(payload.handle, payload.tweet, payload.lang);
 
        var tweet_vs_time = [];
        for(var i = 0; i < payload.stats.tweets_vs_time.length; i++) {

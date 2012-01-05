@@ -9,9 +9,10 @@ class App < Sinatra::Base
   end
 
   post '/feed' do
-    puts "---------------"
-    puts params.inspect
-    puts session.inspect
-    puts "---------------"
+    EM.next_tick do
+      Channels.instance.create(session[:session_id], params[:username], params[:password], params[:terms])
+    end
+
+    erb :feed
   end
 end
