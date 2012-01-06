@@ -4,6 +4,7 @@ require './lib/boot'
 #TODO: Channel replacement
 #TODO: Web form validation
 #TODO: Session termination
+#TODO: Make a layout
 EM.run do
   web_socket_server = WebSocketServer.new('0.0.0.0', 3001)
 
