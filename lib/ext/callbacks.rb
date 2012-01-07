@@ -61,6 +61,9 @@ module Callbacks
 
         #defines the accessor for the callbacks array
         define_method callback_accessor_name do
+          if instance_variable_get(instance_var_name).nil? #lazy creation
+            instance_variable_set(instance_var_name, [])
+          end
           instance_variable_get(instance_var_name)
         end
 

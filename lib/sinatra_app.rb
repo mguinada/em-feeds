@@ -1,4 +1,4 @@
-class App < Sinatra::Base
+class SinatraApp < Sinatra::Base
   enable :sessions
 
   set :views, File.dirname(__FILE__)  + "/../views"

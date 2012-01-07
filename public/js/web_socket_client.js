@@ -33,7 +33,7 @@ $(function() {
         }]
     };
 
-    var term_hit_chart = {
+    var term_hit_chart_options = {
         chart: {
             renderTo: 'tweet_term_hit_chart',
             defaultSeriesType: 'column',
@@ -47,6 +47,11 @@ $(function() {
           text: 'terms',
           categories: []
         },
+        yAxis: {
+            title: {
+                text: 'Count'
+            }
+        },
         legend: {
             enabled: false
         },
@@ -58,11 +63,13 @@ $(function() {
     };
 
     var tweet_time_chart = new Highcharts.Chart(time_chart_options);
-    var term_hit_chart = new Highcharts.Chart(term_hit_chart);
+    var term_hit_chart = new Highcharts.Chart(term_hit_chart_options);
 
-    var socket = new WebSocket('ws://0.0.0.0:3001/');
+    var WebSocketImpl = "MozWebSocket" in window ? MozWebSocket : WebSocket;
+    var socket = new WebSocketImpl('ws://0.0.0.0:3001/');
 
     socket.onopen = function() {
+        socket.send($('#session_id').val());
         log('Socket opened');
     };
 

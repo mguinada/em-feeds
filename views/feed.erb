@@ -12,6 +12,7 @@
         <script type="text/javascript" src="js/web_socket_client.js"></script>
     </head>
     <body>
+
         <div class="container_20">
             <div id="tweets" class="grid_10">
                 <div id="tweet" style="display: none;"></div>
@@ -21,6 +22,11 @@
                 <div id="tweet_term_hit_chart"></div>
             </div>
             <div class="clear">&nbsp;</div>
+            <div>
+              <form>
+                <input id="session_id" name="session_id" type="hidden" value="<%= session[:session_id] %>"/>
+              </form>
+            </div>
         </div>
     </body>
 </html>
