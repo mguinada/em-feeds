@@ -9,10 +9,10 @@ class TwitterStream
 
   def listen
     @stream = Twitter::JSONStream.connect(:ssl     => true,
-                                         :path    => "/1/statuses/filter.json",
-                                         :auth    => "#{@user}:#{@password}",
-                                         :method  => 'POST',
-                                         :content => "track=#{@term}")
+                                          :path    => "/1/statuses/filter.json",
+                                          :auth    => "#{@user}:#{@password}",
+                                          :method  => 'POST',
+                                          :content => "track=#{@term}")
 
     @stream.each_item do |item|
       tweet = JSON.parse(item)
@@ -20,11 +20,11 @@ class TwitterStream
     end
 
     @stream.on_error do |message|
-      on_error_callbacks.each { |c| c.call(message) }
+      on_error_callbacks.each { |c| c.call(@stream.code, message) }
     end
 
     @stream.on_max_reconnects do |timeout, retries|
-      on_error_callbacks.each { |c| c.call("Failed with timeout: #{timeout} after #{retries} retries") }
+      on_error_callbacks.each { |c| c.call(@stream.code, "Failed with timeout: #{timeout} after #{retries} retries") }
     end
     self
   end

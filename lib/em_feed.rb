@@ -2,7 +2,9 @@
 #TODO: Channel replacement
 #TODO: Web form validation
 #TODO: Treat wrong login
+#TODO: Refactor client side code
 EM.run do
+  AUTH_FAILED = "ERROR#401"
   # hit Control + C to stop
   Signal.trap("INT")  { EventMachine.stop }
   Signal.trap("TERM") { EventMachine.stop }
@@ -17,6 +19,13 @@ EM.run do
     if channels[session_id].present?
       channels[session_id].bind_connection(conn)
       puts "started data push for feed #{session_id}"
+    end
+  end
+
+  channels.on_error do |channel, status_code, msg|
+    puts "ERROR: status code: #{status_code}: #{msg} @ #{channel}"
+    if status_code == 401 #Auth failed
+      channel.push AUTH_FAILED
     end
   end
 

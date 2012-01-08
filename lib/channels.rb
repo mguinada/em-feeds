@@ -32,8 +32,8 @@ class RealTimeFeed < EM::Channel
       end
     end
 
-    @twitter_feed.on_error do |msg|
-      on_error_callbacks.each { |callback| callback.call(self, msg) }
+    @twitter_feed.on_error do |status_code, msg|
+      on_error_callbacks.each { |callback| callback.call(self, status_code, msg) }
     end
 
     @twitter_feed.listen

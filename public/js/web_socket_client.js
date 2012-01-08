@@ -82,29 +82,74 @@ $(function() {
     };
 
     socket.onmessage = function(message) {
-       var payload = JSON.parse(message.data);
-
-       writeTweet(payload.handle, payload.tweet, payload.lang);
-
-       var tweet_vs_time = [];
-       for(var i = 0; i < payload.stats.tweets_vs_time.length; i++) {
-           tweet_vs_time.push({
-               x: new Date(payload.stats.tweets_vs_time[i].time).getTime(),
-               y: payload.stats.tweets_vs_time[i].quantity
-           });
+        switch(checkPayloadType(message)) {
+            case PayloadTypes.TWITTER_DATA:
+                processTwitterData(message);
+           break;
+           case PayloadTypes.SERVER_SIDE_ERROR:
+               processError(message);
+           break;
+           default:
+               log('Unknown message type');
+               alert('Fatal Error!');
        }
-
-       var terms = [];
-       var term_hits = [];
-       for(var j = 0; j < payload.stats.term_hits.length; j++) {
-           terms.push(payload.stats.term_hits[j].term);
-           term_hits.push(payload.stats.term_hits[j].quantity);
-       }
-
-       tweet_time_chart.get("tweet_time_series").setData(tweet_vs_time, true);
-       term_hit_chart.xAxis[0].setCategories(terms, true);
-       term_hit_chart.get("tweet_term_hit_series").setData(term_hits, true);
     };
+
+    function processTwitterData(message) {
+        var payload = JSON.parse(message.data);
+
+        writeTweet(payload.handle, payload.tweet, payload.lang);
+
+        var tweet_vs_time = [];
+        for (var i = 0; i < payload.stats.tweets_vs_time.length; i++) {
+            tweet_vs_time.push({
+                x: new Date(payload.stats.tweets_vs_time[i].time).getTime(),
+                y: payload.stats.tweets_vs_time[i].quantity
+            });
+        }
+
+        var terms = [];
+        var term_hits = [];
+        for (var j = 0; j < payload.stats.term_hits.length; j++) {
+            terms.push(payload.stats.term_hits[j].term);
+            term_hits.push(payload.stats.term_hits[j].quantity);
+        }
+
+        tweet_time_chart.get("tweet_time_series").setData(tweet_vs_time, true);
+        term_hit_chart.xAxis[0].setCategories(terms, true);
+        term_hit_chart.get("tweet_term_hit_series").setData(term_hits, true);
+    }
+
+    var PayloadTypes = Object.freeze({"SERVER_SIDE_ERROR":-1, "TWITTER_DATA":0});
+
+    function checkPayloadType(message) {
+        if(getErrorCode(message) != null) {
+            return PayloadTypes.SERVER_SIDE_ERROR;
+        } else {
+            return PayloadTypes.TWITTER_DATA;
+        }
+    }
+
+    function getErrorCode(message) {
+        var result = message.data.match(/^ERROR#(\d+)$/);
+        if(result == null) {
+            return null;
+        } else {
+            return result[1];
+        }
+    }
+
+    function processError(message) {
+        if(getErrorCode(message) == "401") {
+            displayAuthFailedError();
+        } else {
+            alert('Unknown error type');
+        }
+    }
+
+    function displayAuthFailedError() {
+        $('#auth_failure').overlay({ load: true, closeOnClick: false, closeOnEsc: false });
+    }
 
     function writeTweet(user, tweet, lang) {
         var tweets_view = $('div#tweets');
