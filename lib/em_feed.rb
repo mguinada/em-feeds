@@ -32,7 +32,6 @@ EM.run do
 
   #data push
   channels.on_message do |channel, handle, tweet, stats|
-    puts stats.last_60_seconds.tweets_vs_time
     channel.push(JSON.generate(:handle => handle, :tweet => tweet, :stats => stats.last_60_seconds))
   end
 
