@@ -22,9 +22,7 @@ EM.run do
 
   #data push
   channels.on_message do |channel, handle, tweet, stats|
-    websocket_server.on_each_connection do
-      channel.push(JSON.generate(:handle => handle, :tweet => tweet, :stats => stats.last_60_seconds))
-    end
+    channel.push(JSON.generate(:handle => handle, :tweet => tweet, :stats => stats.last_60_seconds))
   end
 
   Thin::Server.start SinatraApp, '0.0.0.0', 3000
