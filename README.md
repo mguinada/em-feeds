@@ -1,6 +1,6 @@
 # Abstract #
 
-An experiment on real time services with event machine, twitter sinatra and websockets.
+An experiment on _real time services_ with event machine, twitter, sinatra and websockets.
 
 # Running #
 
