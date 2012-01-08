@@ -8,8 +8,7 @@
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/validation/jquery.validate.min.js"></script>
-        <script type="text/javascript" src="js/highcharts/highcharts.src.js"></script>
-        <script type="text/javascript" src="js/highcharts/modules/exporting.js"></script>
+        <script type="text/javascript" src="js/labels/jquery.infieldlabel.min.js"></script>
     </head>
     <body>
         <div class="container_20">
@@ -19,15 +18,15 @@
                 <legend></legend>
                 <ol>
                   <li>
-                    <label for="terms">Terms</label>
-                    <input id="terms" name="terms" class="required" type="text"/>
+                    <label for="terms">Comma separated list of terms to scan for. <i><b>e.g. google,amazon,facebook</b></i></label>
+                    <input id="terms" name="terms" class="required default-text" type="text"/>
                   </li>
                   <li>
-                    <label for="username">Twitter username</label>
+                    <label for="username">Your <b>twitter</b> username</label>
                     <input id="username" name="username" class="required" type="text"/>
                   </li>
                   <li>
-                    <label for="password">Twitter password</label>
+                    <label for="password">Your <b>twitter</b> password</label>
                     <input id="password" name="password" class="required" type="password"/>
                   </li>
                 </ol>
@@ -35,7 +34,7 @@
               <fieldset class="buttons">
                 <ol>
                   <li>
-                    <input type="submit"/>
+                    <input type="submit" value="Analyze"/>
                   </li>
                 </ol>
               </fieldset>
@@ -50,15 +49,17 @@
           errorElement: "span",
           messages: {
               terms: {
-                required: 'is required'
+                required: 'required'
               },
               username: {
-                required: 'is required'
+                required: 'required'
               },
               password: {
-                required: 'is required'
+                required: 'required'
               }
           }
       });
+
+      $("form#query label").inFieldLabels();
   })
 </script>

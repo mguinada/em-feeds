@@ -17,7 +17,6 @@ h3 {
 
 a {
     color: black;
-    /*text-decoration: overline;*/
 }
 
 .active, a:hover {
@@ -51,6 +50,18 @@ form label {
    display: inline-block;
    line-height: 1.8;
    vertical-align: top;
+   position: absolute;
+   top: 9px;
+   left: 10px;
+   color: #767474;
+   font-size: 70%;
+}
+
+span.error {
+    margin-left: -45px;
+    display: inline-block;
+    color: #ed2222;
+    font-size: 70%;
 }
 
 form fieldset {
@@ -66,14 +77,12 @@ form fieldset li {
     list-style: none;
     padding: 5px;
     margin:  0;
-}
-
-form label {
-  width: 135px;
+    position: relative;
 }
 
 form input[type="text"], input[type="password"]{
     border-width: 1px;
+    width: 425px;
 }
 
 form fieldset.buttons input[type="submit"] {
@@ -137,11 +146,4 @@ div#auth_failure p {
     text-align: center;
     padding: 5px 5px 5px 5px;
     color: white;
-}
-
-span.error {
-    margin-left: -70px;
-    display: inline-block;
-    color: #ed2222;
-    font-size: smaller;
 }

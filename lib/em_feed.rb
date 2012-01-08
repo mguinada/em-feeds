@@ -27,10 +27,12 @@ EM.run do
     if status_code == 401 #Auth failed
       channel.push AUTH_FAILED
     end
+    #TODO: Other type of errors must also be treated
   end
 
   #data push
   channels.on_message do |channel, handle, tweet, stats|
+    puts stats.last_60_seconds.tweets_vs_time
     channel.push(JSON.generate(:handle => handle, :tweet => tweet, :stats => stats.last_60_seconds))
   end
 
