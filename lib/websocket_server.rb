@@ -1,4 +1,4 @@
-class WebSocketServer
+class WebsocketServer
   callbacks :on_new_connection, :on_connection_closed, :on_message
   attr_reader :connections
 
@@ -7,7 +7,7 @@ class WebSocketServer
 
     EM::WebSocket.start(:host => host, :port => port) do |ws|
       ws.onopen do
-        puts "new websocket server connection"
+        puts "new websocket connection"
         @connections << ws
         on_new_connection_callbacks.each { |c| c.call(ws) }
       end

@@ -68,6 +68,8 @@ $(function() {
     var WebSocketImpl = "MozWebSocket" in window ? MozWebSocket : WebSocket;
     var socket = new WebSocketImpl('ws://0.0.0.0:3001/');
 
+    var tweet_nodes = [];
+
     socket.onopen = function() {
         socket.send($('#session_id').val());
         log('Socket opened');
@@ -84,7 +86,7 @@ $(function() {
     socket.onmessage = function(message) {
         switch(checkPayloadType(message)) {
             case PayloadTypes.TWITTER_DATA:
-                processTwitterData(message);
+                processTwitterData(message, tweet_nodes);
            break;
            case PayloadTypes.SERVER_SIDE_ERROR:
                processError(message);
@@ -95,10 +97,10 @@ $(function() {
        }
     };
 
-    function processTwitterData(message) {
+    function processTwitterData(message, tweet_nodes) {
         var payload = JSON.parse(message.data);
 
-        writeTweet(payload.handle, payload.tweet, payload.lang);
+        writeTweet(tweet_nodes, payload.handle, payload.tweet, payload.lang);
 
         var tweet_vs_time = [];
         for (var i = 0; i < payload.stats.tweets_vs_time.length; i++) {
@@ -151,7 +153,7 @@ $(function() {
         $('#auth_failure').overlay({ load: true, closeOnClick: false, closeOnEsc: false });
     }
 
-    function writeTweet(user, tweet, lang) {
+    function writeTweet(tweet_dom_nodes, user, tweet, lang) {
         var tweets_view = $('div#tweets');
         var tweet_view = $("<div id='tweet' style='display: none;'></div>");
         var user_html = $("<div class='grid_4'><b>@" + user + "</b></div>");
@@ -160,12 +162,20 @@ $(function() {
 
         tweet_view.append(user_html);
         tweet_view.append(tweet_html);
+
+        /* TODO: deprecate the language data entry */
         if(lang) {
           tweet_view.append(lang_html);
         }
 
         tweet_view.append($("<div class='clear'>&nbsp;</div>"));
         tweets_view.append(tweet_view);
+        tweet_dom_nodes.push(tweet_view);
+
+        //Don't let the DOM transform into a monster
+        if(tweet_dom_nodes.length > 20) {
+            tweet_nodes.shift().remove();
+        }
 
         tweet_view.slideDown(100);
         tweets_view.animate({scrollTop: $('div#tweet').length * 30}, 800);
