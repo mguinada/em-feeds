@@ -173,7 +173,7 @@ $(function() {
         tweet_dom_nodes.push(tweet_view);
 
         //Don't let the DOM transform into a monster
-        if(tweet_dom_nodes.length > 20) {
+        if(tweet_dom_nodes.length >= 20) {
             tweet_nodes.shift().remove();
         }
 
