@@ -8,6 +8,7 @@ An experiment on _real time services_ with event machine, twitter, sinatra and w
 git clone git://github.com/mguinada/em-feeds.git
 
 cd em-feeds
+gem install bundler
 bundle install
 cd bin
 
